@@ -10,7 +10,7 @@ using System;
 
 namespace Service.Migrations
 {
-    [DbContext(typeof(ExampleDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20180221013507_InitialCreate")]
     partial class InitialCreate
     {

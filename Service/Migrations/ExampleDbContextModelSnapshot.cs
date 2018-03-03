@@ -10,7 +10,7 @@ using System;
 
 namespace Service.Migrations
 {
-    [DbContext(typeof(ExampleDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class ExampleDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

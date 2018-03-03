@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Service.Entities;
 using Service.Repositories.Concrete;
+using Service.UnitOfWork.Abstract;
+using Service.UnitOfWork.Concrete;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace API
 {
@@ -27,8 +32,16 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration["ConnectionString:ExampleDatabase"];
-            services.AddDbContext<ExampleDbContext>(options => options.UseSqlServer(connection));
-            services.AddScoped<IExampleRepository, EFExampleRepository>();
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper();
+            services.AddSwaggerGen(cfg =>
+            {
+                cfg.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                var basePath = AppContext.BaseDirectory;
+                var xmlPath = Path.Combine(basePath, "API.xml"); 
+                cfg.IncludeXmlComments(xmlPath);
+            });
             services.AddMvc();
         }
 
@@ -40,6 +53,15 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
             app.UseMvc();
         }
     }

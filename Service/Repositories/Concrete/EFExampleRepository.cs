@@ -7,7 +7,7 @@ namespace Service.Repositories.Concrete
 	public class EFExampleRepository: BaseRepository<ExampleEntity>, IExampleRepository 
 	{
 
-		public EFExampleRepository(ExampleDbContext context) : base(context)
+		public EFExampleRepository(AppDbContext context) : base(context)
 		{
 		}
 	}

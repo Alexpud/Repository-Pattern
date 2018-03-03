@@ -8,14 +8,14 @@ namespace Service.Repositories.Concrete
 {
 	public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 	{
-        private readonly ExampleDbContext _context;
+        private readonly AppDbContext _context;
 
-        public BaseRepository(ExampleDbContext context)
+        public BaseRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
             try
             {

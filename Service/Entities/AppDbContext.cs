@@ -2,11 +2,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Service.Entities
 {
-    public class ExampleDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<ExampleEntity> ExampleEntities { get; set; }
         
-        public ExampleDbContext(DbContextOptions<ExampleDbContext> options): base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
         {
             
         }
